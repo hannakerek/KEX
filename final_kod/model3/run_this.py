@@ -20,12 +20,7 @@ def run_maze():
         move =0
         reward_total =0
         while True:
-            t2 = time.time()
-            #env.update()
-            #time.sleep(0.1)
-            #fresh env
-
-            #env.render()
+            env.render()
 
             # RL choose action based on observation
             action = RL.choose_action(observation)
@@ -43,8 +38,6 @@ def run_maze():
             if (step > 200) and (step % 5 == 0):
                 RL.learn()
 
-            # swap observation
-            observation = observation_
             step += 1
             move += 1
 
@@ -80,4 +73,3 @@ if __name__ == "__main__":
                       )
     env.after(100, run_maze)
     env.mainloop()
-    #RL.plot_cost()

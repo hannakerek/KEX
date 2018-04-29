@@ -1,13 +1,4 @@
-"""
-Reinforcement learning maze example.
-Red rectangle:          explorer.
-Black rectangles:       hells       [reward = -1].
-Yellow bin circle:      paradise    [reward = +1].
-All other states:       ground      [reward = 0].
-This script is the environment part of this example.
-The RL is in RL_brain.py.
-View more on my tutorial page: https://morvanzhou.github.io/tutorials/
-"""
+
 import numpy as np
 import time
 import sys
@@ -21,7 +12,7 @@ MAZE_H = 10  # grid height
 MAZE_W = 10 # grid width
 height =MAZE_H*UNIT
 width =MAZE_W*UNIT
-punkter=[]
+obstacles=[]
 agentList=[]
 goalList=[]
 
@@ -50,25 +41,25 @@ class Maze(tk.Tk, object):
             self.canvas.create_line(x0, y0, x1, y1)
 
         # obstacle
-        self.punkt = self.canvas.create_rectangle(
+        self.obstacle = self.canvas.create_rectangle(
             3*UNIT,2*UNIT,4*UNIT,3*UNIT, fill='red')
-        punkter.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(
             3*UNIT,3*UNIT,4*UNIT,4*UNIT, fill='red')
-        punkter.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(
             3*UNIT,4*UNIT,4*UNIT,5*UNIT, fill='red')
-        punkter.append(self.punkt)
+        obstacles.append(self.obstacle)
 
-        self.punkt = self.canvas.create_rectangle(
+        self.obstacle = self.canvas.create_rectangle(
             6*UNIT,5*UNIT,7*UNIT,6*UNIT, fill='red')
-        punkter.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(
             6*UNIT,6*UNIT,7*UNIT,7*UNIT, fill='red')
-        punkter.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(
             6*UNIT,7*UNIT,7*UNIT,8*UNIT, fill='red')
-        punkter.append(self.punkt)
+        obstacles.append(self.obstacle)
 
 
 
@@ -89,8 +80,7 @@ class Maze(tk.Tk, object):
         self.canvas.pack()
 
     def reset(self):
-        #self.update()
-        #time.sleep(0.1)
+
         self.canvas.delete(agentList[0])
         self.agent1 = self.canvas.create_rectangle(
             0*UNIT, 0*UNIT,
@@ -107,8 +97,8 @@ class Maze(tk.Tk, object):
         frozen_enemy =[]
         distance3 =[]
         distance33 = []
-        for j in range(len(punkter)):
-            frozen_enemy.append(np.array(self.canvas.coords(punkter[j])[:2]))
+        for j in range(len(obstacles)):
+            frozen_enemy.append(np.array(self.canvas.coords(obstacles[j])[:2]))
             distance3 = ((agent - frozen_enemy[j] )/(MAZE_H*UNIT))
             distance33.append(distance3[0])
             distance33.append(distance3[1])
@@ -153,14 +143,12 @@ class Maze(tk.Tk, object):
             reward = 4
             done = True
             
-        for i in range(0, len(punkter)):
-            if next_coords in [self.canvas.coords(punkter[i])]:
+        for i in range(0, len(obstacles)):
+            if next_coords in [self.canvas.coords(obstacles[i])]:
                 reward = -2
                 done = False
                 col = True
                 
-        #s_ = (np.array(next_coords[:2]) - np.array(self.canvas.coords(goalList[0])[:2]))/(MAZE_H*UNIT)
-        #S_ =np.array([s_[0],s_[1],4])
         return reward, done, col
 
     def render(self):

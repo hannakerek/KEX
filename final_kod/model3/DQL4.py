@@ -1,11 +1,3 @@
-"""
-This part of code is the Deep Q Network (DQN) brain.
-view the tensorboard picture about this DQN structure on: https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-3-DQN3/#modification
-View more on my tutorial page: https://morvanzhou.github.io/tutorials/
-Using:
-Tensorflow: r1.2
-"""
-
 import numpy as np
 import tensorflow as tf
 
@@ -57,7 +49,6 @@ class DeepQNetwork:
         self.sess = tf.Session()
 
         if output_graph:
-            # $ tensorboard --logdir=logs
             tf.summary.FileWriter("logs/", self.sess.graph)
 
         self.sess.run(tf.global_variables_initializer())
@@ -124,7 +115,7 @@ class DeepQNetwork:
         # check to replace target parameters
         if self.learn_step_counter % self.replace_target_iter == 0:
             self.sess.run(self.target_replace_op)
-            #print('\ntarget_params_replaced\n')
+ 
 
         # sample batch memory from all memory
         if self.memory_counter > self.memory_size:
@@ -148,12 +139,3 @@ class DeepQNetwork:
         self.epsilon = self.epsilon + self.epsilon_increment if self.epsilon < self.epsilon_max else self.epsilon_max
         self.learn_step_counter += 1
 
-    def plot_cost(self):
-        import matplotlib.pyplot as plt
-        plt.plot(np.arange(len(self.cost_his)), self.cost_his)
-        plt.ylabel('Cost')
-        plt.xlabel('training steps')
-        plt.show()
-
-#if __name__ == '__main__':
-#    DQN = DeepQNetwork(3,4, output_graph=True)
