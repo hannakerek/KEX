@@ -15,7 +15,7 @@ numberOfAgents=2 #number of agents we want to have moving on the grid
 
 #create Qtable
 class QTable():
-	def __init__(self, actions, learning_rate=0.01, discount_factor=0.9):
+	def __init__(self, actions, learning_rate=0.05, discount_factor=0.8):
 		self.actions = actions
 		self.alfa = learning_rate
 		self.gamma = discount_factor
@@ -53,17 +53,9 @@ class QTable():
 			elif len(action_list)>1:
 				self.action = random.choice(action_list)
 	
-		#print(self.Qtable) 
 		return self.action
 
 	def printQtable(self):
-		#saves Qtable to an Excel file:
-		'''
-		writer = panda.ExcelWriter('C:/Users/marta/Desktop/QtableEx.xlsx')
-		self.Qtable.to_excel(writer,'Sheet1')
-		writer.save()
-		'''
-		#prints Qtable
 		print(self.Qtable)
 
 
