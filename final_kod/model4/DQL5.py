@@ -1,11 +1,3 @@
-"""
-This part of code is the Deep Q Network (DQN) brain.
-view the tensorboard picture about this DQN structure on: https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-3-DQN3/#modification
-View more on my tutorial page: https://morvanzhou.github.io/tutorials/
-Using:
-Tensorflow: r1.2
-"""
-
 import numpy as np
 import tensorflow as tf
 
@@ -13,9 +5,12 @@ np.random.seed(1)
 tf.set_random_seed(1)
 
 e1 =[0,0,0,0]
+l1 =[0,0,0,0]
 e1_name=['e1','e2','e3','e4']
+l1_name=['l1','l2','l3','l4']
 q_name =['q1','q2','q3','q4']
 t1_name =['t11','t12','t13','t14']
+k1_name =['k11','k12','k13','k14']
 t2_name =['t21','t22','t23','t24']
 
 
@@ -32,7 +27,7 @@ class DeepQNetwork:
             replace_target_iter=200,
             memory_size=2000,
             batch_size=32,
-            e_greedy_increment=None,
+            e_greedy_increment=True,
             output_graph=False,
     ):
         self.n_actions = n_actions
@@ -43,14 +38,14 @@ class DeepQNetwork:
         self.replace_target_iter = replace_target_iter
         self.memory_size = memory_size
         self.batch_size = batch_size
-        self.epsilon_increment = e_greedy_increment
+        self.epsilon_increment = 0.001
         self.epsilon = 0 if e_greedy_increment is not None else self.epsilon_max
 
         # total learning step
         self.learn_step_counter = 0
 
         # initialize zero memory [s, a, r, s_]
-        self.memory = np.zeros((self.memory_size, n_features *2 +2))
+        self.memory = np.zeros((self.memory_size, n_features*2 +2))
 
         # consist of [target_net, evaluate_net]
         self._build_net(agent_nummer)
@@ -64,7 +59,6 @@ class DeepQNetwork:
         self.sess = tf.Session()
 
         if output_graph:
-            # $ tensorboard --logdir=logs
             tf.summary.FileWriter("logs/", self.sess.graph)
 
         self.sess.run(tf.global_variables_initializer())
@@ -81,16 +75,20 @@ class DeepQNetwork:
 
         # ------------------ build evaluate_net ------------------
         with tf.variable_scope('eval_net'):
+            
             e1[agent_nummer] = tf.layers.dense(self.s, 64, tf.nn.relu, kernel_initializer=w_initializer,
                                  bias_initializer=b_initializer, name= e1_name[agent_nummer])
-            self.q_eval = tf.layers.dense(e1[agent_nummer], self.n_actions, kernel_initializer=w_initializer,
+            l1[agent_nummer] = tf.layers.dense(e1[agent_nummer], 64,  tf.nn.relu, name= l1_name[agent_nummer])
+
+            self.q_eval = tf.layers.dense(l1[agent_nummer], self.n_actions, kernel_initializer=w_initializer,
                                           bias_initializer=b_initializer, name=q_name[agent_nummer])
 
         # ------------------ build target_net ------------------
         with tf.variable_scope('target_net'):
             t1 = tf.layers.dense(self.s_, 64, tf.nn.relu, kernel_initializer=w_initializer,
                                  bias_initializer=b_initializer, name=t1_name[agent_nummer])
-            self.q_next = tf.layers.dense(t1, self.n_actions, kernel_initializer=w_initializer,
+            k1 = tf.layers.dense(t1, 64, tf.nn.relu, name =k1_name[agent_nummer])
+            self.q_next = tf.layers.dense(k1, self.n_actions, kernel_initializer=w_initializer,
                                           bias_initializer=b_initializer, name=t2_name[agent_nummer])
 
         with tf.variable_scope('q_target'):
@@ -153,13 +151,3 @@ class DeepQNetwork:
         # increasing epsilon
         self.epsilon = self.epsilon + self.epsilon_increment if self.epsilon < self.epsilon_max else self.epsilon_max
         self.learn_step_counter += 1
-
-    def plot_cost(self):
-        import matplotlib.pyplot as plt
-        plt.plot(np.arange(len(self.cost_his)), self.cost_his)
-        plt.ylabel('Cost')
-        plt.xlabel('training steps')
-        plt.show()
-
-#if __name__ == '__main__':
-    #DQN = DeepQNetwork(3,4, output_graph=True)
