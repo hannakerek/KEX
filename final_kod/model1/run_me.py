@@ -35,8 +35,8 @@ while True:
 		if loop == False:
 			break
 
-	#m.update()
-	#time.sleep(0.15)
+	m.update()
+	time.sleep(0.15)
 	m.restart()
 	print("loop nr", i, "step  ",step, "reward", total_reward, "goal", goal, "collision:", collision)
 	total = step, total_reward, find_goal, collision
@@ -52,7 +52,6 @@ while True:
 		break
 
 m.mainloop()
-#Qt.printQtable()
 
 
 

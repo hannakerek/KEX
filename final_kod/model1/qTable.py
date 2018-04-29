@@ -39,14 +39,11 @@ class QTable():
 				self.action= action_list[0]
 			elif len(action_list)>1:
 				self.action = random.choice(action_list)
-		#print(self.Qtable)
 		return self.action
 
 
 	def printQtable(self):
 		print(self.Qtable)
-
-
 
 
 	def updateQTable(self, state, action ,reward, state_):

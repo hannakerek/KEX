@@ -8,7 +8,7 @@ import tkinter as tk
 size=50#size of one square in the grid
 width=10*size 
 height=10*size
-punkter=[] # list which shows all "shelves" (red squares)
+obstacles=[] # list which shows all "shelves" (red squares)
 
 
 
@@ -36,19 +36,19 @@ class Model(tk.Tk, object):
 		
 	#create shelves, goal and agent
 	def _create_objects(self):
-		self.punkt = self.background.create_rectangle(3*size,2*size,4*size,3*size, fill='red')
-		punkter.append(self.punkt)
-		self.punkt = self.background.create_rectangle(3*size,3*size,4*size,4*size, fill='red')
-		punkter.append(self.punkt)
-		self.punkt = self.background.create_rectangle(3*size,4*size,4*size,5*size, fill='red')
-		punkter.append(self.punkt)
+		self.obstacle = self.background.create_rectangle(3*size,2*size,4*size,3*size, fill='red')
+		obstacles.append(self.obstacle)
+		self.obstacle = self.background.create_rectangle(3*size,3*size,4*size,4*size, fill='red')
+		obstacles.append(self.obstacle)
+		self.obstacle = self.background.create_rectangle(3*size,4*size,4*size,5*size, fill='red')
+		obstacles.append(self.obstacle)
 
-		self.punkt = self.background.create_rectangle(6*size,5*size,7*size,6*size, fill='red')
-		punkter.append(self.punkt)
-		self.punkt = self.background.create_rectangle(6*size,6*size,7*size,7*size, fill='red')
-		punkter.append(self.punkt)
-		self.punkt = self.background.create_rectangle(6*size,7*size,7*size,8*size, fill='red')
-		punkter.append(self.punkt)
+		self.obstacle = self.background.create_rectangle(6*size,5*size,7*size,6*size, fill='red')
+		obstacles.append(self.obstacle)
+		self.obstacle = self.background.create_rectangle(6*size,6*size,7*size,7*size, fill='red')
+		obstacles.append(self.obstacle)
+		self.obstacle = self.background.create_rectangle(6*size,7*size,7*size,8*size, fill='red')
+		obstacles.append(self.obstacle)
 
 		self.goal1 = self.background.create_oval(
             9*size,9*size,10*size,10*size,
@@ -71,10 +71,6 @@ class Model(tk.Tk, object):
 
 	#move agent to the next state
 	def agent_move(self,do_action):
-		#time.sleep so that we can see the movement
-		#time.sleep(0.1)
-		#update the model
-		#self.update()
 		agent1_positions= self.background.coords(self.agent1)
 		make_move = [0,0]
 		if do_action == self.actions[0]: #up
@@ -95,15 +91,15 @@ class Model(tk.Tk, object):
 	#reward function gives reward for each step 
 	#and restarts simulation when agent reaches goal or go in the red squares
 	def reward(self):
-		#next state/ use after agent_move()
+		
 		s1_= self.background.coords(self.agent1)
 		reward = -0.1
-		#reward = 
+
 		loop =True
 		goal = False
 		collision = 0
-		for i in range(len(punkter)):
-			if s1_ == self.background.coords(punkter[i]):
+		for i in range(len(obstacles)):
+			if s1_ == self.background.coords(obstacles[i]):
 				reward = -2
 				loop = False
 				collision = 1
@@ -120,23 +116,6 @@ class Model(tk.Tk, object):
 			0,0,size,size,fill='blue')
 		self.agent2 = self.background.create_oval(
 			width,height,width,height,fill='pink')	
-
-
-
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
 
 
 
