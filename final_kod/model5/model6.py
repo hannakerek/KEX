@@ -40,19 +40,19 @@ class Maze(tk.Tk, object):
             x0, y0, x1, y1 = 0, r, MAZE_H * UNIT, r
             self.canvas.create_line(x0, y0, x1, y1)
 
-        self.punkt = self.canvas.create_rectangle(3*UNIT,2*UNIT,4*UNIT,3*UNIT, fill='red')
-        obstacles.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(3*UNIT,3*UNIT,4*UNIT,4*UNIT, fill='red')
-        obstacles.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(3*UNIT,4*UNIT,4*UNIT,5*UNIT, fill='red')
-        obstacles.append(self.punkt)
+        self.obstacle = self.canvas.create_rectangle(3*UNIT,2*UNIT,4*UNIT,3*UNIT, fill='red')
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(3*UNIT,3*UNIT,4*UNIT,4*UNIT, fill='red')
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(3*UNIT,4*UNIT,4*UNIT,5*UNIT, fill='red')
+        obstacles.append(self.obstacle)
 
-        self.punkt = self.canvas.create_rectangle(6*UNIT,5*UNIT,7*UNIT,6*UNIT, fill='red')
-        obstacles.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(6*UNIT,6*UNIT,7*UNIT,7*UNIT, fill='red')
-        obstacles.append(self.punkt)
-        self.punkt = self.canvas.create_rectangle(6*UNIT,7*UNIT,7*UNIT,8*UNIT, fill='red')
-        obstacles.append(self.punkt)
+        self.obstacle = self.canvas.create_rectangle(6*UNIT,5*UNIT,7*UNIT,6*UNIT, fill='red')
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(6*UNIT,6*UNIT,7*UNIT,7*UNIT, fill='red')
+        obstacles.append(self.obstacle)
+        self.obstacle = self.canvas.create_rectangle(6*UNIT,7*UNIT,7*UNIT,8*UNIT, fill='red')
+        obstacles.append(self.obstacle)
   
 
         col =['blue','pink','yellow','green']
