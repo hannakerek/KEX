@@ -26,6 +26,8 @@ while True:
 		total_reward += reward
 		state_ = m.current_state()
 		Qt.updateQTable(state, action ,reward,state_)
+		m.update()
+		time.sleep(0.1)
 		step += 1
 
 		if goal == True:
@@ -36,7 +38,7 @@ while True:
 			break
 
 	m.update()
-	time.sleep(0.15)
+	time.sleep(0.1)
 	m.restart()
 	print("loop nr", i, "step  ",step, "reward", total_reward, "goal", goal, "collision:", collision)
 	total = step, total_reward, find_goal, collision
